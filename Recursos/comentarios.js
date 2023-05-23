@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function(){
         }else{
             columnaComentarios.style.display = "block";
             cuerpo.style.marginRight = "20%";
-            
             columnaVisible = true;
         }
     }

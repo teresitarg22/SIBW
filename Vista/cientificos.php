@@ -13,9 +13,10 @@
     $enlaces = getEnlaces($idCientifico);
     $galeria = getGaleria($idCientifico);
     $comentarios = getComentarios($idCientifico);
+    $hashtags = getHashtags($idCientifico);
 
     if($usuario === "")
-        echo $twig->render('cientificos.html', ['cientifico' => $cientifico, 'enlaces' => $enlaces, 'galeria' => $galeria, 'comentarios' => $comentarios, 'isLogged' => false]);
+        echo $twig->render('cientificos.html', ['cientifico' => $cientifico, 'enlaces' => $enlaces, 'galeria' => $galeria, 'comentarios' => $comentarios, 'hashtags' => $hashtags, 'isLogged' => false]);
     else
-        echo $twig->render('cientificos.html', ['cientifico' => $cientifico, 'enlaces' => $enlaces, 'galeria' => $galeria, 'comentarios' => $comentarios, 'usuario' => $usuario, 'isLogged' => true]);
+        echo $twig->render('cientificos.html', ['cientifico' => $cientifico, 'enlaces' => $enlaces, 'galeria' => $galeria, 'comentarios' => $comentarios, 'usuario' => $usuario, 'hashtags' => $hashtags, 'isLogged' => true]);
 ?>

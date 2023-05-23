@@ -166,4 +166,115 @@
         else 
             return false; // Retorna false si hubo un error en la actualización
     }
+
+    // ------------------------------------------------------------
+    // Función para obtener los hashtags de un científico.
+    function getHashtags($idCientifico) {
+        global $mysqli;
+    
+        // Consultamos la base de datos y almacenamos los datos de los enlaces:
+        $res = $mysqli->query("SELECT * FROM hashtags WHERE id_cientifico=" . $idCientifico);
+    
+        // Verificar si ocurrió un error en la consulta
+        if (!$res) {
+            // Manejar el error de la consulta
+            echo "Error en la consulta: " . $mysqli->error;
+            return array(); // Devolver un array vacío en caso de error
+        }
+    
+        // Creamos un array para guardar los datos:
+        $hashtags = array();
+    
+        // Si se han encontrado resultados en la consulta, guardamos la info de cada enlace:
+        if ($res->num_rows > 0) {
+            while($row = $res->fetch_assoc()) {
+                $hashtag = array(
+                    'id_cientifico' => $row['id_cientifico'],
+                    'hashtag' => $row['hashtag']
+                );
+                array_push($hashtags, $hashtag);
+            }
+        }
+    
+        // Devolvemos el array asociativo de los enlaces.
+        return $hashtags;
+    }
+
+    function updateHashtags($id, $hashtags){
+        global $mysqli;
+    
+        // Separar por cada espacio o salto de línea:
+        $palabras = preg_split("/[\s,\t]+/", $hashtags); // Dividir la cadena en palabras
+    
+        $hashtags = array(); // Arreglo para almacenar las palabras que comienzan con "#"
+    
+        foreach ($palabras as $palabra) {
+            if (substr($palabra, 0, 1) === "#") {
+                $hashtags[] = $palabra; // Agregar la palabra al arreglo de hashtags
+            } else return false;
+        }
+    
+        // Borra el contenido actual
+        $sql = "DELETE FROM hashtags";
+        $resultado = $mysqli->query($sql);
+    
+        // Insertar los hashtags:
+        foreach ($hashtags as $hashtag) {
+            $comp = $mysqli->prepare("INSERT INTO hashtags (id_cientifico, hashtag) VALUES (?, ?)");
+            $comp->bind_param("is", $id, $hashtag);
+            
+            // Verificar si la actualización fue exitosa
+            if (!$comp->execute()) {
+                return false; // Retorna false si hubo un error en la actualización
+            }
+        }
+    
+        return true;
+    }
+
+    // Función para insertar la ruta de la imagen en la tabla "galeria"
+    function insertarImagenGaleria($idCientifico, $rutaImagen) {
+        global $mysqli;
+        $stmt = $mysqli->prepare("INSERT INTO galeria (id_cientifico, foto, pieFoto) VALUES (?, ?, '')");
+        $stmt->bind_param("is", $idCientifico, $rutaImagen);
+        
+        if ($stmt->execute() === TRUE) 
+            return true;
+        else
+            return false;
+    }
+
+    function obtenerInformacionImagen($idImagen){
+        global $mysqli;
+        
+        // Consultamos la base de datos y almacenamos los datos de los comentarios:
+        $resultado = $mysqli->query("SELECT * FROM galeria WHERE id = $idImagen");
+
+        // Si se han encontrado resultados en la consulta, guardamos la info de cada comentario:
+        if($resultado->num_rows > 0){
+            $imagen = array(
+                'id' => $fila['id'],
+                'id_cientifico' => $fila['id_cientifico'],
+                'foto' => $fila['foto'],
+                'pieFoto' => $fila['pieFoto']
+            );
+        }
+        
+        // Devolvemos el array asociativo de los comentarios.
+        return $imagen;
+    }
+
+    function eliminarImagenGaleria($idImagen) {
+        global $mysqli;
+        $comp = $mysqli->prepare("DELETE FROM galeria WHERE id = ?");
+        $comp->bind_param("i", $idImagen);
+    
+        // Ejecutamos la consulta:
+        if ($comp->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
 ?>

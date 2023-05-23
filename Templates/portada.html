@@ -9,8 +9,12 @@
 			{% if usuario['tipo'] == 'gestor' or usuario['tipo'] == 'superusuario' %}
 				<div class="menu_gestor">
 					<a href="../Controlador/añadir_cientifico.php">
-						<img src="../Img/Iconos/añadir.svg" alt="Añadir" class="icono">
+						<img src="../Img/Iconos/añadir.svg" alt="Añadir" class="icono_añadir">
 						Añadir científico
+					</a>
+					<a href="../Vista/listado_cientificos.php">
+						<img src="../Img/Iconos/añadir.svg" alt="Añadir" class="icono_añadir">
+						Listado de científicos
 					</a>
 				</div>
 			{% endif %}

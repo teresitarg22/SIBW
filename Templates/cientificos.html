@@ -45,12 +45,24 @@
 
 			<!-- Galería de imágenes -->
 			
-			<br> <h2 id="titulo_galeria"> GALERÍA DE FOTOS </h2>
+			<h2 id="titulo_galeria"> GALERÍA DE FOTOS </h2>
 			<div class="galeria_fotos">
 				<div id="fotos">
 					{% for foto in galeria %}
-						<div id="foto_galeria"><img src="{{ foto['foto'] }}"></img></div>
-						<div id="piefoto_galeria"><p> {{ foto['pieFoto'] }} </p></div>
+						<div id="foto_galeria">
+							<img src="{{ foto['foto'] }}">
+							{% if usuario['tipo'] == 'gestor' or usuario['tipo'] == 'superusuario' %}
+								<button class="eliminar-imagen" data-id="{{ foto['id'] }}">
+									<img src="../Img/Iconos/quitar.svg" alt="borrar" class="icono">
+								</button>
+							  
+							  
+								<!-- <a href="#" class="eliminar-imagen" data-id="{{ foto['id'] }}">Eliminar</a> -->
+							{% endif %}
+						</div>
+						<div id="piefoto_galeria">
+							<p>{{ foto['pieFoto'] }}</p>
+						</div>
 					{% endfor %}
 				</div>
 
@@ -59,21 +71,15 @@
 				<button id="siguiente">>></button>
 			</div>
 
-			<!-- Botones de gestión del científico: editar o borrar -->
-			{% if usuario['tipo'] == 'gestor' or usuario['tipo'] == 'superusuario' %}
-				<div class="menu_gestor_cientifico">
-				
-					<a href="../Controlador/configurar_cientifico.php?cientifico={{ cientifico['id'] }}"> 
-						<img src="../Img/Iconos/editar.svg" alt="Editar" class="iconos">
-							</a>
-				
-					<a href="../Controlador/eliminar_cientifico.php?cientifico={{ cientifico['id'] }}"> 
-						<img src="../Img/Iconos/borrar.svg" alt="Borrar" class="iconos">
-							</a>
-					
-				</div>
-			{% endif %}
-
+			<div class="columna_hashtags">
+				<h2> HASHTAGS RELACIONADOS CON {{ cientifico['nombre'] }} </h2> <br> <br>
+				<ul class="info">
+					{% for hashtag in hashtags %}
+						<li> {{ hashtag['hashtag'] }} </li>
+					{% endfor %}
+				</ul>
+			</div>
+			
 			<!-- Botones de redes sociales e imprimir -->
 			<div class="botones">
 				<a href="https://es-es.facebook.com/"><img src="/Img/logo_facebook.png" class="boton" /></a>
@@ -86,11 +92,16 @@
 
 		</div>
 
+		{% if usuario['tipo'] == 'gestor' or usuario['tipo'] == 'superusuario' %}
+			<div class="menu_gestor">
+				<a href="../Controlador/configurar_cientifico.php?cientifico={{ cientifico['id'] }}"> Configurar cientifico </a>
+				<a href="../Controlador/eliminar_cientifico.php?cientifico={{ cientifico['id'] }}"> Eliminar cientifico </a>
+			</div>
+		{% endif %}
+
 		{{ parent() }}
 
 	</div>
-
-	
 
 	<!-- Columna de comentarios que aparece tras darle al botón "comentarios" -->
 	<div id="columnaComentarios" class="columnaComentarios">
@@ -109,11 +120,11 @@
 							<div class="menu_comentarios">
 								<!-- Le damos un ID único a cada botón de cada comentario -->
 								<button id="borrar_comentario_{{ comentario['id'] }}" data-id="{{comentario['id']}}">
-									<img src="../Img/Iconos/borrar.svg" alt="borrar" class="iconos">
+									<img src="../Img/Iconos/borrar.svg" alt="borrar" class="icono">
 								</button>
 
 								<button id="editar_comentario_{{ comentario['id'] }}" data-id="{{comentario['id']}}">
-									<img src="../Img/Iconos/editar.svg" alt="editar" class="iconos">
+									<img src="../Img/Iconos/editar.svg" alt="editar" class="icono">
 								</button>
 
 								<!-- Al darle al botón de editar -->

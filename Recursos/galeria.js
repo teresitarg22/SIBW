@@ -58,5 +58,27 @@ document.addEventListener('DOMContentLoaded', function() {
       items[currentIndex].style.display = 'block';
       pies[currentIndex].style.display = 'block';
     });
+
+    // ---------------- BORRAR UNA IMAGEN ----------------
+    const enlacesEliminar = document.querySelectorAll('.eliminar-imagen');
+  enlacesEliminar.forEach(enlace => {
+      enlace.addEventListener('click', function(event) {
+          event.preventDefault();
+          const idImagen = this.getAttribute('data-id');
+          eliminarImagen(idImagen);
+      });
+  });
+
+  function eliminarImagen(idImagen) {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '../Controlador/eliminar_imagen.php', true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.onload = function() {
+          if (xhr.status === 200) {
+              location.reload();
+          }
+      };
+      xhr.send('idImagen=' + idImagen);
+  }
   });
   
