@@ -1,0 +1,29 @@
+{% extends "padre.html" %}
+
+{% block cuerpo %}
+
+	<!-- Columna izquerda, matriz de científicos con sus respectivas fotos -->
+	<div class="columnaIzquierda">
+		<div class="cientificos">
+
+			{% if usuario['tipo'] == 'gestor' or usuario['tipo'] == 'superusuario' %}
+				<div class="menu_gestor">
+					<a href="../Controlador/añadir_cientifico.php">
+						<img src="../Img/Iconos/añadir.svg" alt="Añadir" class="icono">
+						Añadir científico
+					</a>
+				</div>
+			{% endif %}
+
+			{% for cient in cientifico %}
+				<div class="cientifico">
+				<a href="../Vista/cientificos.php?cientifico={{ cient.id }}"><img src='{{ cient.foto }}' class='foto_cientifico' /></a>
+				<h2><br> {{ cient.nombre }} </h2>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+
+	{{ parent() }}
+		
+{% endblock %}

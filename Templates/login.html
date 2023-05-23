@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <title>
+        CIENTÍFICOS
+    </title>
+    <link rel="stylesheet" href="../Recursos/estilos.css">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  
+  <body>
+    {% if error is defined %}
+      <div class="error">{{ error }}</div>
+      <br> <br>
+    {% endif %}
+
+    <div class="inicio">
+      <h1> INICIO DE SESIÓN: </h1>
+      <br>
+      <form action="login.php" method="post">
+        Usuario: <input type="text" name="nick" /><br>
+        Contraseña: <input type="password" name="contraseña" /><br>
+        <input type="submit" value="Loguearse" />
+      </form>
+
+      <button id="boton_registro" onclick="window.location.href='../Vista/registro.php'">Registrate aquí</button>
+    </div>
+
+  </body>
+
+</html>
